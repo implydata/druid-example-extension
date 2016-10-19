@@ -46,7 +46,8 @@ too.
 
 ### Use
 
-To use the extractionFn, call it like a normal extractionFn with type "example", e.g. in a topN:
+To use the example extractionFn, call it like a normal extractionFn with type "example", e.g. in a
+topN. It returns the first "length" characters of each value.
 
 ```json
 {
@@ -77,7 +78,9 @@ To use the extractionFn, call it like a normal extractionFn with type "example",
 }
 ```
 
-To use the parser, configure it like a normal parser with format "example", e.g. in an indexing spec:
+To use the example parser, configure it like a normal parser with format "example", e.g. in an indexing
+spec. It parses inputs as JSON and then applies an extractionFn to all string fields other than the
+timestamp.
 
 ```json
 "parser" : {
