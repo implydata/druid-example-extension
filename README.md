@@ -3,7 +3,7 @@
 This is an example project demonstrating how to write a Druid extension. It includes:
 
 - ExampleExtractionFn, an extraction function.
-- ExampleParseSpec, a parser.
+- ExampleSumAggregatorFactory (and related files), an aggregator.
 - ExampleExtensionModule, the class that registers these with Druid's extension system.
 - META-INF/services/io.druid.initialization.DruidModule entry for ExampleExtensionModule.
 
@@ -16,7 +16,7 @@ You can extend Druid with custom aggregators, query types, filters, and many mor
 To build the extension, run `mvn package` and you'll get a file in `target` like this:
 
 ```
-[INFO] Building tar: /src/druid-example-extension/target/druid-example-extension-0.9.1.1_1-SNAPSHOT-bin.tar.gz
+[INFO] Building tar: /src/druid-example-extension/target/druid-example-extension-0.10.0_1-SNAPSHOT-bin.tar.gz
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
@@ -29,8 +29,8 @@ To build the extension, run `mvn package` and you'll get a file in `target` like
 Unpack the tar.gz and you'll find a directory named `druid-example-extension` inside it:
 
 ```
-$ tar xzf target/druid-example-extension-0.9.1.1_1-SNAPSHOT-bin.tar.gz
-$ ls druid-example-extension-0.9.1.1_1-SNAPSHOT/
+$ tar xzf target/druid-example-extension-0.10.0_1-SNAPSHOT-bin.tar.gz
+$ ls druid-example-extension-0.10.0_1-SNAPSHOT/
 LICENSE                  README.md                druid-example-extension/
 ```
 
@@ -78,30 +78,5 @@ topN. It returns the first "length" characters of each value.
 }
 ```
 
-To use the example parser, configure it like a normal parser with format "example", e.g. in an indexing
-spec. It parses inputs as JSON and then applies an extractionFn to all string fields other than the
-timestamp.
-
-```json
-"parser" : {
-  "type": "string",
-  "parseSpec": {
-    "format": "example",
-    "extractionFn": {
-      "type": "javascript",
-      "function": "function(x) { if (x == null ) { return x; } else { return x.split('').reverse().join(''); } }"
-    },
-    "dimensionsSpec": {
-      "dimensions": [
-        "channel",
-        "cityName",
-        "comment"
-      ]
-    },
-    "timestampSpec": {
-      "format": "auto",
-      "column": "timestamp"
-    }
-  }
-}
-```
+To use the example aggregator, use the type "exampleSum". It does the same thing as the built-in
+"doubleSum" aggregator.
