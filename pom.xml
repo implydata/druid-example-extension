@@ -22,7 +22,7 @@
 
   <groupId>io.imply</groupId>
   <artifactId>druid-example-extension</artifactId>
-  <version>0.9.1.1_1-SNAPSHOT</version>
+  <version>0.10.0_1-SNAPSHOT</version>
 
   <scm>
     <connection>scm:git:https://github.com/implydata/druid-example-extension.git</connection>
@@ -32,7 +32,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <druid.version>0.9.1.1</druid.version>
+    <druid.version>0.10.0</druid.version>
     <jmh.version>1.9.2</jmh.version>
   </properties>
 
@@ -52,7 +52,7 @@
     <dependency>
       <groupId>com.metamx</groupId>
       <artifactId>emitter</artifactId>
-      <version>0.3.6</version>
+      <version>0.4.1</version>
       <scope>provided</scope>
     </dependency>
 
@@ -100,8 +100,8 @@
         <version>3.1</version>
         <configuration>
           <compilerArgument>-Xlint:unchecked</compilerArgument>
-          <source>1.7</source>
-          <target>1.7</target>
+          <source>1.8</source>
+          <target>1.8</target>
         </configuration>
       </plugin>
       <plugin>

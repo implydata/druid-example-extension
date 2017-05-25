@@ -22,8 +22,8 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Binder;
 import io.druid.initialization.DruidModule;
+import io.imply.druid.example.aggregator.ExampleSumAggregatorFactory;
 import io.imply.druid.example.extraction.ExampleExtractionFn;
-import io.imply.druid.example.parser.ExampleParseSpec;
 
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class ExampleExtensionModule implements DruidModule
     // Register Jackson module for any classes we need to be able to use in JSON queries or ingestion specs.
     return ImmutableList.of(
         new SimpleModule(getClass().getSimpleName()).registerSubtypes(
-            new NamedType(ExampleParseSpec.class, ExampleParseSpec.TYPE_NAME),
+            new NamedType(ExampleSumAggregatorFactory.class, ExampleSumAggregatorFactory.TYPE_NAME),
             new NamedType(ExampleExtractionFn.class, ExampleExtractionFn.TYPE_NAME)
         )
     );
