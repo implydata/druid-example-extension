@@ -39,7 +39,7 @@ LICENSE                  README.md                druid-example-extension/
 To install the extension:
 
 1. Copy `druid-example-extension` into your Druid `extensions` directory.
-2. Edit `conf/_common/common.runtime.properties` to add `"druid-example-extension"` to `druid.extensions.loadList`.
+2. Edit `conf/_common/common.runtime.properties` to add `"druid-example-extension"` to `druid.extensions.loadList`. (Edit `conf-quickstart/_common/common.runtime.properties` too if you are using the quickstart config.)
 It should look like: `druid.extensions.loadList=["druid-example-extension"]`. There may be a few other extensions there
 too.
 3. Restart Druid.
