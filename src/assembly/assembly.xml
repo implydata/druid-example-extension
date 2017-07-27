@@ -23,11 +23,13 @@
     <format>tar.gz</format>
   </formats>
 
+  <baseDirectory>${project.name}</baseDirectory>
+
   <dependencySets>
     <dependencySet>
       <useProjectArtifact>false</useProjectArtifact>
       <useTransitiveDependencies>true</useTransitiveDependencies>
-      <outputDirectory>druid-example-extension</outputDirectory>
+      <outputDirectory>.</outputDirectory>
       <unpack>false</unpack>
     </dependencySet>
   </dependencySets>
@@ -43,7 +45,7 @@
     </fileSet>
     <fileSet>
       <directory>${project.build.directory}</directory>
-      <outputDirectory>druid-example-extension</outputDirectory>
+      <outputDirectory>.</outputDirectory>
       <includes>
         <include>*.jar</include>
       </includes>
