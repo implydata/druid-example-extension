@@ -18,9 +18,9 @@ package io.imply.druid.example.extraction;
 
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.druid.jackson.DefaultObjectMapper;
-import io.druid.query.extraction.ExtractionFn;
 import io.imply.druid.example.ExampleExtensionModule;
+import org.apache.druid.jackson.DefaultObjectMapper;
+import org.apache.druid.query.extraction.ExtractionFn;
 import org.junit.Assert;
 import org.junit.Test;
 

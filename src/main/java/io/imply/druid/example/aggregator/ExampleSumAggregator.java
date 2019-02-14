@@ -19,16 +19,16 @@
 
 package io.imply.druid.example.aggregator;
 
-import io.druid.query.aggregation.Aggregator;
-import io.druid.segment.FloatColumnSelector;
+import org.apache.druid.query.aggregation.Aggregator;
+import org.apache.druid.segment.BaseFloatColumnValueSelector;
 
 public class ExampleSumAggregator implements Aggregator
 {
-  private final FloatColumnSelector selector;
+  private final BaseFloatColumnValueSelector selector;
 
   private double sum;
 
-  public ExampleSumAggregator(FloatColumnSelector selector)
+  public ExampleSumAggregator(BaseFloatColumnValueSelector selector)
   {
     this.selector = selector;
 
@@ -38,13 +38,7 @@ public class ExampleSumAggregator implements Aggregator
   @Override
   public void aggregate()
   {
-    sum += selector.get();
-  }
-
-  @Override
-  public void reset()
-  {
-    sum = 0;
+    sum += selector.getFloat();
   }
 
   @Override
