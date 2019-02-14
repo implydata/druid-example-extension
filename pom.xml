@@ -22,7 +22,7 @@
 
   <groupId>io.imply</groupId>
   <artifactId>druid-example-extension</artifactId>
-  <version>0.13.0-incubating_1-SNAPSHOT</version>
+  <version>0.13.0_1-SNAPSHOT</version>
 
   <scm>
     <connection>scm:git:https://github.com/implydata/druid-example-extension.git</connection>

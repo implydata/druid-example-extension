@@ -3,10 +3,12 @@ package io.imply.druid.example.indexer;
 import com.google.common.annotations.VisibleForTesting;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.collect.ImmutableList;
 import org.apache.druid.data.input.ByteBufferInputRowParser;
 import org.apache.druid.data.input.InputRow;
 import org.apache.druid.data.input.impl.MapInputRowParser;
 import org.apache.druid.data.input.impl.ParseSpec;
+import org.apache.druid.data.input.impl.StringInputRowParser;
 import org.apache.druid.java.util.common.StringUtils;
 import org.apache.druid.java.util.common.parsers.Parser;
 
@@ -20,8 +22,7 @@ public class ExampleByteBufferInputRowParser implements ByteBufferInputRowParser
   public static final String TYPE_NAME = "exampleParser";
 
   private final ParseSpec parseSpec;
-  private Parser<String, Object> parser;
-  private MapInputRowParser mapParser;
+  private StringInputRowParser stringParser;
 
   private final Base64.Decoder base64Decoder = Base64.getDecoder();
 
@@ -49,12 +50,11 @@ public class ExampleByteBufferInputRowParser implements ByteBufferInputRowParser
   @Override
   public List<InputRow> parseBatch(ByteBuffer input)
   {
-    if (parser == null) {
-      parser = parseSpec.makeParser();
-      mapParser = new MapInputRowParser(parseSpec);
+    if (stringParser == null) {
+      stringParser = new StringInputRowParser(parseSpec);
     }
     String stringInput = decodeRot13Base64(input);
-    return mapParser.parseBatch(parser.parseToMap(stringInput));
+    return ImmutableList.of(stringParser.parse(stringInput));
   }
 
   public String decodeRot13Base64(ByteBuffer input)

@@ -5,11 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
 import io.imply.druid.example.ExampleExtensionModule;
 import org.apache.druid.data.input.InputRow;
-import org.apache.druid.data.input.impl.MapInputRowParser;
 import org.apache.druid.data.input.impl.ParseSpec;
+import org.apache.druid.data.input.impl.StringInputRowParser;
 import org.apache.druid.jackson.DefaultObjectMapper;
 import org.apache.druid.java.util.common.StringUtils;
-import org.apache.druid.java.util.common.parsers.Parser;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Before;
@@ -96,8 +95,7 @@ public class ExampleByteBufferInputRowParserTest
   public void testParse()
   {
     int i = 0;
-    Parser<String, Object> stringParser = parseSpec.makeParser();
-    MapInputRowParser mapParser = new MapInputRowParser(parseSpec);
+    StringInputRowParser stringParser = new StringInputRowParser(parseSpec);
 
     while(!inputRowBuffers.isEmpty()) {
       ByteBuffer row = inputRowBuffers.poll();
@@ -113,7 +111,7 @@ public class ExampleByteBufferInputRowParserTest
         Assert.assertEquals("106.793700", theRow.getDimension("index").get(0));
       }
 
-      Assert.assertEquals(mapParser.parseBatch(stringParser.parseToMap(inputRows[i++])), parsed);
+      Assert.assertEquals(ImmutableList.of(stringParser.parse(inputRows[i++])), parsed);
     }
   }
 }
