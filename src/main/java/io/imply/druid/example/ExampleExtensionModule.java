@@ -21,9 +21,10 @@ import com.fasterxml.jackson.databind.jsontype.NamedType;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Binder;
-import io.druid.initialization.DruidModule;
 import io.imply.druid.example.aggregator.ExampleSumAggregatorFactory;
 import io.imply.druid.example.extraction.ExampleExtractionFn;
+import io.imply.druid.example.indexer.ExampleByteBufferInputRowParser;
+import org.apache.druid.initialization.DruidModule;
 
 import java.util.List;
 
@@ -36,7 +37,8 @@ public class ExampleExtensionModule implements DruidModule
     return ImmutableList.of(
         new SimpleModule(getClass().getSimpleName()).registerSubtypes(
             new NamedType(ExampleSumAggregatorFactory.class, ExampleSumAggregatorFactory.TYPE_NAME),
-            new NamedType(ExampleExtractionFn.class, ExampleExtractionFn.TYPE_NAME)
+            new NamedType(ExampleExtractionFn.class, ExampleExtractionFn.TYPE_NAME),
+            new NamedType(ExampleByteBufferInputRowParser.class, ExampleByteBufferInputRowParser.TYPE_NAME)
         )
     );
   }

@@ -22,12 +22,12 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Doubles;
-import io.druid.common.utils.StringUtils;
-import io.druid.query.aggregation.Aggregator;
-import io.druid.query.aggregation.AggregatorFactory;
-import io.druid.query.aggregation.AggregatorFactoryNotMergeableException;
-import io.druid.query.aggregation.BufferAggregator;
-import io.druid.segment.ColumnSelectorFactory;
+import org.apache.druid.java.util.common.StringUtils;
+import org.apache.druid.query.aggregation.Aggregator;
+import org.apache.druid.query.aggregation.AggregatorFactory;
+import org.apache.druid.query.aggregation.AggregatorFactoryNotMergeableException;
+import org.apache.druid.query.aggregation.BufferAggregator;
+import org.apache.druid.segment.ColumnSelectorFactory;
 
 import java.nio.ByteBuffer;
 import java.util.Comparator;
@@ -73,13 +73,13 @@ public class ExampleSumAggregatorFactory extends AggregatorFactory
   @Override
   public Aggregator factorize(ColumnSelectorFactory metricFactory)
   {
-    return new ExampleSumAggregator(metricFactory.makeFloatColumnSelector(fieldName));
+    return new ExampleSumAggregator(metricFactory.makeColumnValueSelector(fieldName));
   }
 
   @Override
   public BufferAggregator factorizeBuffered(ColumnSelectorFactory metricFactory)
   {
-    return new ExampleSumBufferAggregator(metricFactory.makeFloatColumnSelector(fieldName));
+    return new ExampleSumBufferAggregator(metricFactory.makeColumnValueSelector(fieldName));
   }
 
   @Override
