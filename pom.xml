@@ -22,7 +22,7 @@
 
   <groupId>io.imply</groupId>
   <artifactId>druid-example-extension</artifactId>
-  <version>0.13.0_1-SNAPSHOT</version>
+  <version>0.24.0-SNAPSHOT</version>
 
   <scm>
     <connection>scm:git:https://github.com/implydata/druid-example-extension.git</connection>
@@ -32,7 +32,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <druid.version>0.13.0-incubating</druid.version>
+    <druid.version>0.23.0</druid.version>
     <jmh.version>1.9.2</jmh.version>
   </properties>
 
@@ -40,7 +40,7 @@
     <dependency>
       <groupId>org.apache.druid</groupId>
       <artifactId>druid-api</artifactId>
-      <version>${druid.version}</version>
+      <version>0.13.0-incubating</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
