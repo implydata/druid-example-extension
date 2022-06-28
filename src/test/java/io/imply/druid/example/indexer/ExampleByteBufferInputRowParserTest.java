@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
 import io.imply.druid.example.ExampleExtensionModule;
+import org.apache.druid.common.config.NullHandling;
 import org.apache.druid.data.input.InputRow;
 import org.apache.druid.data.input.impl.ParseSpec;
 import org.apache.druid.data.input.impl.StringInputRowParser;
@@ -87,6 +88,7 @@ public class ExampleByteBufferInputRowParserTest
   @Before
   public void setup() throws IOException
   {
+    NullHandling.initializeForTests();
     parseSpec = MAPPER.readValue(parseSpecJson, ParseSpec.class);
     parser = new ExampleByteBufferInputRowParser(parseSpec);
 
