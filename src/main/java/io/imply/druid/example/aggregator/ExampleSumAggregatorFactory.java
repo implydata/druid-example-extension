@@ -28,6 +28,7 @@ import org.apache.druid.query.aggregation.AggregatorFactory;
 import org.apache.druid.query.aggregation.AggregatorFactoryNotMergeableException;
 import org.apache.druid.query.aggregation.BufferAggregator;
 import org.apache.druid.segment.ColumnSelectorFactory;
+import org.apache.druid.segment.column.ColumnType;
 
 import java.nio.ByteBuffer;
 import java.util.Comparator;
@@ -162,9 +163,14 @@ public class ExampleSumAggregatorFactory extends AggregatorFactory
   }
 
   @Override
-  public String getTypeName()
+  public ColumnType getIntermediateType()
   {
-    return "float";
+    return ColumnType.FLOAT;
+  }
+
+  @Override
+  public ColumnType getResultType() {
+    return this.getIntermediateType();
   }
 
   @Override
