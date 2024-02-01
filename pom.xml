@@ -32,7 +32,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <druid.version>0.23.0</druid.version>
+    <druid.version>28.0.0</druid.version>
     <jmh.version>1.9.2</jmh.version>
   </properties>
 
