@@ -22,10 +22,11 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Binder;
 import io.imply.druid.example.aggregator.ExampleSumAggregatorFactory;
-import io.imply.druid.example.expression.ExampleSumExprMacro;
+import io.imply.druid.example.calcite.aggregation.ExampleSumSqlAggregator;
 import io.imply.druid.example.extraction.ExampleExtractionFn;
 import io.imply.druid.example.indexer.ExampleByteBufferInputRowParser;
 import org.apache.druid.initialization.DruidModule;
+import org.apache.druid.sql.guice.SqlBindings;
 
 import java.util.List;
 
@@ -39,8 +40,7 @@ public class ExampleExtensionModule implements DruidModule
         new SimpleModule(getClass().getSimpleName()).registerSubtypes(
             new NamedType(ExampleSumAggregatorFactory.class, ExampleSumAggregatorFactory.TYPE_NAME),
             new NamedType(ExampleExtractionFn.class, ExampleExtractionFn.TYPE_NAME),
-            new NamedType(ExampleByteBufferInputRowParser.class, ExampleByteBufferInputRowParser.TYPE_NAME),
-            new NamedType(ExampleSumExprMacro.class)
+            new NamedType(ExampleByteBufferInputRowParser.class, ExampleByteBufferInputRowParser.TYPE_NAME)
         )
     );
   }
@@ -48,5 +48,6 @@ public class ExampleExtensionModule implements DruidModule
   @Override
   public void configure(Binder binder)
   {
+    SqlBindings.addAggregator(binder, ExampleSumSqlAggregator.class);
   }
 }
