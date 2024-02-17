@@ -31,7 +31,6 @@ import org.apache.druid.segment.column.ColumnType;
 import org.apache.druid.sql.calcite.aggregation.Aggregation;
 import org.apache.druid.sql.calcite.aggregation.Aggregations;
 import org.apache.druid.sql.calcite.aggregation.SqlAggregator;
-import org.apache.druid.sql.calcite.aggregation.builtin.SimpleSqlAggregator;
 import org.apache.druid.sql.calcite.expression.DruidExpression;
 import org.apache.druid.sql.calcite.expression.OperatorConversions;
 import org.apache.druid.sql.calcite.planner.Calcites;
@@ -108,10 +107,6 @@ public class ExampleSumSqlAggregator implements SqlAggregator
     final ColumnType valueType = Calcites.getColumnTypeForRelDataType(aggregateCall.getType());
     if (valueType == null) {
       return null;
-    }
-
-    if (!valueType.isNumeric()){
-      throw SimpleSqlAggregator.badTypeException(fieldName, "EXAMPLE_SUM", valueType);
     }
 
     return Aggregation.create(new ExampleSumAggregatorFactory(name, fieldName));
