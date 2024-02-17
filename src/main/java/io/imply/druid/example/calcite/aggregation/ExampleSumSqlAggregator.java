@@ -45,14 +45,13 @@ import java.util.List;
 public class ExampleSumSqlAggregator implements SqlAggregator
 {
   public static final String NAME = "EXAMPLE_SUM";
-  private static final SqlAggFunction FUNCTION_INSTANCE =
+  public static final SqlAggFunction FUNCTION_INSTANCE =
       OperatorConversions.aggregatorBuilder(NAME)
-                         .operandNames("column")
                          .operandTypes(SqlTypeFamily.NUMERIC)
                          .requiredOperandCount(1)
                          .literalOperands(1)
                          .returnTypeNonNull(SqlTypeName.DOUBLE)
-                         .functionCategory(SqlFunctionCategory.NUMERIC)
+                         .functionCategory(SqlFunctionCategory.USER_DEFINED_FUNCTION)
                          .build();
 
   @Override
