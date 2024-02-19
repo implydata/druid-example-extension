@@ -41,6 +41,12 @@ import org.apache.druid.sql.calcite.rel.VirtualColumnRegistry;
 import javax.annotation.Nullable;
 import java.util.List;
 
+/**
+ * This class serves as sql binding for EXAMPLE_SUM.
+ *
+ * It defines a {@link SqlAggFunction} for EXAMPLE_SUM which takes a Numeric operand as input
+ * and converts the call to druid aggregation using {@link ExampleSumAggregatorFactory}
+ */
 public class ExampleSumSqlAggregator implements SqlAggregator
 {
   public static final String NAME = "EXAMPLE_SUM";
@@ -53,12 +59,18 @@ public class ExampleSumSqlAggregator implements SqlAggregator
                          .functionCategory(SqlFunctionCategory.USER_DEFINED_FUNCTION)
                          .build();
 
+  /**
+   * @return the user defined {@link SqlAggFunction}
+   */
   @Override
   public SqlAggFunction calciteFunction()
   {
     return FUNCTION_INSTANCE;
   }
 
+  /**
+   * converts the call to an Aggregation
+   */
   @Nullable
   @Override
   public Aggregation toDruidAggregation(
@@ -85,6 +97,7 @@ public class ExampleSumSqlAggregator implements SqlAggregator
       return null;
     }
 
+    // we expect only one argument to the example_sum function
     final DruidExpression arg = Iterables.getOnlyElement(arguments);
     final String fieldName;
 

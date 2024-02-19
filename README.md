@@ -84,6 +84,11 @@ topN. It returns the first "length" characters of each value.
 To use the example aggregator, use the type "exampleSum". It does the same thing as the built-in
 "doubleSum" aggregator.
 
+#### ExampleSumSqlAggregator
+Provides the sql binding for a user defined function. In this case, binding for `example_sum` making use of the `ExampleSumAggregatorFactory`.
+By configuring this binding, a sql query with `example_sum` can be converted to a native query.
+
+usage - ```select example_sum('column') from "table"```
 
 #### ExampleByteBufferInputRowParser
 
