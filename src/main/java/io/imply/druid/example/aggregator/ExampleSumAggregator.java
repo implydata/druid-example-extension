@@ -16,6 +16,7 @@
 
 package io.imply.druid.example.aggregator;
 
+import org.apache.druid.common.config.NullHandling;
 import org.apache.druid.query.aggregation.Aggregator;
 import org.apache.druid.segment.BaseFloatColumnValueSelector;
 
@@ -35,7 +36,7 @@ public class ExampleSumAggregator implements Aggregator
   @Override
   public void aggregate()
   {
-    sum += selector.getFloat();
+    sum += selector.isNull() ? NullHandling.ZERO_FLOAT : selector.getFloat();
   }
 
   @Override

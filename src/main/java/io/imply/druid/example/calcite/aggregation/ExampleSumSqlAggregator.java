@@ -25,6 +25,7 @@ import io.imply.druid.example.aggregator.ExampleSumAggregatorFactory;
 import org.apache.calcite.rel.core.AggregateCall;
 import org.apache.calcite.sql.SqlAggFunction;
 import org.apache.calcite.sql.SqlFunctionCategory;
+import org.apache.calcite.sql.type.ReturnTypes;
 import org.apache.calcite.sql.type.SqlTypeFamily;
 import org.apache.calcite.sql.type.SqlTypeName;
 import org.apache.druid.segment.column.ColumnType;
@@ -55,7 +56,7 @@ public class ExampleSumSqlAggregator implements SqlAggregator
                          .operandTypes(SqlTypeFamily.NUMERIC)
                          .requiredOperandCount(1)
                          .literalOperands(1)
-                         .returnTypeNonNull(SqlTypeName.DOUBLE)
+                         .returnTypeInference(ReturnTypes.ARG0)
                          .functionCategory(SqlFunctionCategory.USER_DEFINED_FUNCTION)
                          .build();
 
