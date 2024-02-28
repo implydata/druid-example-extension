@@ -24,8 +24,8 @@ public class ExampleSumAggregatorFactoryTest
     final ExampleSumAggregatorFactory agg = new ExampleSumAggregatorFactory("billy", "nilly");
     Assert.assertEquals("billy", agg.getName());
     Assert.assertEquals("nilly", agg.getFieldName());
-    Assert.assertEquals(ColumnType.FLOAT, agg.getIntermediateType());
-    Assert.assertEquals(ColumnType.FLOAT, agg.getResultType());
+    Assert.assertEquals(ColumnType.DOUBLE, agg.getIntermediateType());
+    Assert.assertEquals(ColumnType.DOUBLE, agg.getResultType());
     Assert.assertEquals(357.2, agg.combine(123.2, 234));
   }
 

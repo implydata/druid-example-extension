@@ -134,4 +134,25 @@ public class ExampleSumSqlAggregationTest extends BaseCalciteQueryTest
         .expectedException(expected -> expected.expect(DruidException.class))
         .run();
   }
+
+  @Test
+  public void testExampleSumDouble()
+  {
+    cannotVectorize();
+    testBuilder()
+        .sql("select EXAMPLE_SUM(d1) from numfoo")
+        .expectedQueries(
+            ImmutableList.of(
+                Druids.newTimeseriesQueryBuilder()
+                      .dataSource(CalciteTests.DATASOURCE3)
+                      .intervals(querySegmentSpec(Filtration.eternity()))
+                      .granularity(Granularities.ALL)
+                      .aggregators(aggregators(new ExampleSumAggregatorFactory("a0", "d1")))
+                      .context(QUERY_CONTEXT_DEFAULT)
+                      .build()
+            )
+        )
+        .expectedResults(ImmutableList.of(new Object[]{2.7D}))
+        .run();
+  }
 }
