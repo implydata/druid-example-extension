@@ -155,4 +155,34 @@ public class ExampleSumSqlAggregationTest extends BaseCalciteQueryTest
         .expectedResults(ImmutableList.of(new Object[]{2.7D}))
         .run();
   }
+
+  @Test
+  public void testExampleSumMVD()
+  {
+    cannotVectorize();
+    testBuilder()
+        .sql("select example_sum(STRLEN(dim2)), example_sum(STRLEN(MV_TO_STRING(dim3, ''))) from numfoo")
+        .expectedQueries(
+            ImmutableList.of(
+                Druids.newTimeseriesQueryBuilder()
+                      .dataSource(CalciteTests.DATASOURCE3)
+                      .intervals(querySegmentSpec(Filtration.eternity()))
+                      .granularity(Granularities.ALL)
+                      .virtualColumns(
+                          expressionVirtualColumn("v0", "strlen(\"dim2\")", ColumnType.LONG),
+                          expressionVirtualColumn("v1", "strlen(array_to_string(\"dim3\",''))", ColumnType.LONG)
+                      )
+                      .aggregators(
+                          new ExampleSumAggregatorFactory("a0", "v0"),
+                          new ExampleSumAggregatorFactory("a1", "v1")
+                      )
+                      .context(QUERY_CONTEXT_DEFAULT)
+                      .build()
+            )
+        )
+        // dim2 - a, b, abc (non empty)
+        // dim3 - [a, b], [b, c], d
+        .expectedResults(ImmutableList.of(new Object[]{5, 5}))
+        .run();
+  }
 }
