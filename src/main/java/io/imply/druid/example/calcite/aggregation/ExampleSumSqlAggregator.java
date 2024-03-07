@@ -32,6 +32,7 @@ import org.apache.druid.segment.column.ColumnType;
 import org.apache.druid.sql.calcite.aggregation.Aggregation;
 import org.apache.druid.sql.calcite.aggregation.Aggregations;
 import org.apache.druid.sql.calcite.aggregation.SqlAggregator;
+import org.apache.druid.sql.calcite.aggregation.builtin.SimpleSqlAggregator;
 import org.apache.druid.sql.calcite.expression.DruidExpression;
 import org.apache.druid.sql.calcite.expression.OperatorConversions;
 import org.apache.druid.sql.calcite.planner.Calcites;
@@ -84,10 +85,12 @@ public class ExampleSumSqlAggregator implements SqlAggregator
       final boolean finalizeAggregations
   )
   {
+    // since we don't support distinct sum, we bail out here and let planner pick another operator
     if (aggregateCall.isDistinct()) {
       return null;
     }
 
+    // Convert the arguments to a list of DruidExpression objects using the below helper method
     final List<DruidExpression> arguments = Aggregations.getArgumentsForSimpleAggregator(
         plannerContext,
         aggregateCall,
@@ -102,6 +105,8 @@ public class ExampleSumSqlAggregator implements SqlAggregator
     final DruidExpression arg = Iterables.getOnlyElement(arguments);
     final String fieldName;
 
+    // If the field is not a direct column access, we create a virtual column.
+    // To avoid creating multiple virtual columns for the same expression, we instead use a virtualColumnRegistry
     if (arg.isDirectColumnAccess()) {
       fieldName = arg.getDirectColumn();
     } else {
