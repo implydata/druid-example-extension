@@ -16,16 +16,17 @@
 
 package io.imply.druid.example.aggregator;
 
+import org.apache.druid.common.config.NullHandling;
 import org.apache.druid.query.aggregation.BufferAggregator;
-import org.apache.druid.segment.BaseFloatColumnValueSelector;
+import org.apache.druid.segment.BaseDoubleColumnValueSelector;
 
 import java.nio.ByteBuffer;
 
 public class ExampleSumBufferAggregator implements BufferAggregator
 {
-  private final BaseFloatColumnValueSelector selector;
+  private final BaseDoubleColumnValueSelector selector;
 
-  ExampleSumBufferAggregator(BaseFloatColumnValueSelector selector)
+  ExampleSumBufferAggregator(BaseDoubleColumnValueSelector selector)
   {
     this.selector = selector;
   }
@@ -40,7 +41,10 @@ public class ExampleSumBufferAggregator implements BufferAggregator
   @Override
   public final void aggregate(ByteBuffer buf, int position)
   {
-    buf.putDouble(position, buf.getDouble(position) + selector.getFloat());
+    buf.putDouble(
+        position,
+        buf.getDouble(position) + (selector.isNull() ? NullHandling.ZERO_DOUBLE : selector.getDouble())
+    );
   }
 
   @Override

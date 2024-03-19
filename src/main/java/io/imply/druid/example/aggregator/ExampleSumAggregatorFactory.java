@@ -165,7 +165,7 @@ public class ExampleSumAggregatorFactory extends AggregatorFactory
   @Override
   public ColumnType getIntermediateType()
   {
-    return ColumnType.FLOAT;
+    return ColumnType.DOUBLE;
   }
 
   @Override

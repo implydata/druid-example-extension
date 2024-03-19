@@ -2,7 +2,7 @@ package io.imply.druid.example.aggregator;
 
 import org.apache.druid.query.aggregation.Aggregator;
 import org.apache.druid.query.aggregation.BufferAggregator;
-import org.apache.druid.query.aggregation.TestFloatColumnSelector;
+import org.apache.druid.query.aggregation.TestDoubleColumnSelectorImpl;
 import org.apache.druid.query.aggregation.TestObjectColumnSelector;
 import org.apache.druid.segment.ColumnSelectorFactory;
 import org.easymock.EasyMock;
@@ -18,18 +18,18 @@ public class ExampleSumAggregatorTest
   private ExampleSumAggregatorFactory exampleSumAggFactory;
   private ExampleSumAggregatorFactory combiningAggFactory;
   private ColumnSelectorFactory colSelectorFactory;
-  private TestFloatColumnSelector valueSelector;
+  private TestDoubleColumnSelectorImpl valueSelector;
   private TestObjectColumnSelector objectSelector;
 
-  private float[] floats = {1.1897f, 0.001f, 86.23f, 166.228f};
-  private Float[] objects = {2.1897f, 1.001f, 87.23f, 167.228f};
+  private double[] doubles = {1.1897, 0.001, 86.23, 166.228};
+  private Double[] objects = {2.1897, 1.001, 87.23, 167.228};
 
   @Before
   public void setup()
   {
     exampleSumAggFactory = new ExampleSumAggregatorFactory("billy", "nilly");
     combiningAggFactory = (ExampleSumAggregatorFactory) exampleSumAggFactory.getCombiningFactory();
-    valueSelector = new TestFloatColumnSelector(floats);
+    valueSelector = new TestDoubleColumnSelectorImpl(doubles);
     objectSelector = new TestObjectColumnSelector<>(objects);
     colSelectorFactory = EasyMock.createMock(ColumnSelectorFactory.class);
     EasyMock.expect(colSelectorFactory.makeColumnValueSelector("nilly")).andReturn(valueSelector);
@@ -51,7 +51,7 @@ public class ExampleSumAggregatorTest
 
     Assert.assertEquals(253.6487, result, 0.0001);
     Assert.assertEquals(253L, agg.getLong());
-    Assert.assertEquals(253.6487, agg.getFloat(), 0.0001);
+    Assert.assertEquals(253.6487, agg.getDouble(), 0.0001);
   }
 
   @Test
@@ -72,31 +72,31 @@ public class ExampleSumAggregatorTest
 
     Assert.assertEquals(253.6487, result, 0.0001);
     Assert.assertEquals( 253L, agg.getLong(buffer, 0));
-    Assert.assertEquals(253.6487, agg.getFloat(buffer, 0), 0.0001);
+    Assert.assertEquals(253.6487, agg.getDouble(buffer, 0), 0.0001);
   }
 
   @Test
   public void testCombine()
   {
-    Float f1 = 3.0f;
-    Float f2 = 4.0f;
-    Assert.assertEquals((double) (f1+f2), exampleSumAggFactory.combine(f1, f2));
+    Double d1 = 3.0;
+    Double d2 = 4.0;
+    Assert.assertEquals((double) (d1+d2), exampleSumAggFactory.combine(d1, d2));
   }
 
   @Test
   public void testComparatorWithNulls()
   {
-    Float f1 = 3.0f;
-    Float f2 = null;
+    Double d1 = 3.0;
+    Double d2 = null;
     Comparator comparator = exampleSumAggFactory.getComparator();
-    Assert.assertEquals(1, comparator.compare(f1, f2));
-    Assert.assertEquals(0, comparator.compare(f1, f1));
-    Assert.assertEquals(0, comparator.compare(f2, f2));
-    Assert.assertEquals(-1, comparator.compare(f2, f1));
+    Assert.assertEquals(1, comparator.compare(d1, d2));
+    Assert.assertEquals(0, comparator.compare(d1, d1));
+    Assert.assertEquals(0, comparator.compare(d2, d2));
+    Assert.assertEquals(-1, comparator.compare(d2, d1));
   }
 
   @Test
-  public void testFloatAnyCombiningBufferAggregator()
+  public void testDoubleAnyCombiningBufferAggregator()
   {
     BufferAggregator agg = combiningAggFactory.factorizeBuffered(
         colSelectorFactory);
@@ -113,7 +113,7 @@ public class ExampleSumAggregatorTest
 
     Assert.assertEquals(257.6487, result, 0.0001);
     Assert.assertEquals(257, agg.getLong(buffer, 0));
-    Assert.assertEquals(257.6487, agg.getFloat(buffer, 0), 0.0001);
+    Assert.assertEquals(257.6487, agg.getDouble(buffer, 0), 0.0001);
   }
 
   private void aggregate(
