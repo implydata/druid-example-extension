@@ -16,7 +16,6 @@
 
 package io.imply.druid.example.aggregator;
 
-import org.apache.druid.common.config.NullHandling;
 import org.apache.druid.query.aggregation.BufferAggregator;
 import org.apache.druid.segment.BaseDoubleColumnValueSelector;
 
@@ -41,10 +40,12 @@ public class ExampleSumBufferAggregator implements BufferAggregator
   @Override
   public final void aggregate(ByteBuffer buf, int position)
   {
-    buf.putDouble(
-        position,
-        buf.getDouble(position) + (selector.isNull() ? NullHandling.ZERO_DOUBLE : selector.getDouble())
-    );
+    if (!selector.isNull()) {
+      buf.putDouble(
+          position,
+          buf.getDouble(position) + selector.getDouble()
+      );
+    }
   }
 
   @Override
