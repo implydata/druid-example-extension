@@ -22,7 +22,7 @@
 
   <groupId>io.imply</groupId>
   <artifactId>druid-example-extension</artifactId>
-  <version>0.25.0-SNAPSHOT</version>
+  <version>33.0.0-SNAPSHOT</version>
 
   <scm>
     <connection>scm:git:https://github.com/implydata/druid-example-extension.git</connection>
@@ -32,9 +32,21 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <druid.version>29.0.0</druid.version>
+    <druid.version>33.0.0</druid.version>
     <jmh.version>1.9.2</jmh.version>
   </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.apache.druid</groupId>
+        <artifactId>druid</artifactId>
+        <version>${druid.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <dependencies>
     <dependency>
@@ -68,7 +80,26 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-params</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
       <scope>test</scope>
     </dependency>
 
@@ -92,26 +123,34 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.1</version>
         <configuration>
           <compilerArgument>-Xlint:unchecked</compilerArgument>
-          <source>1.8</source>
-          <target>1.8</target>
+          <source>11</source>
+          <target>11</target>
         </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.19.1</version>
         <configuration>
-          <argLine>-Duser.timezone=UTC</argLine>
+          <argLine>
+             -Duser.timezone=UTC
+             --add-exports=java.base/jdk.internal.misc=ALL-UNNAMED
+             --add-exports=java.base/jdk.internal.ref=ALL-UNNAMED
+             --add-opens=java.base/java.nio=ALL-UNNAMED
+             --add-opens=java.base/sun.nio.ch=ALL-UNNAMED
+             --add-opens=java.base/jdk.internal.ref=ALL-UNNAMED
+             --add-opens=java.base/java.io=ALL-UNNAMED
+             --add-opens=java.base/java.lang=ALL-UNNAMED
+             --add-opens=jdk.management/com.sun.management.internal=ALL-UNNAMED
+             --add-opens=java.base/java.util=ALL-UNNAMED
+          </argLine>
           <redirectTestOutputToFile>true</redirectTestOutputToFile>
         </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.5.5</version>
         <executions>
           <execution>
             <id>distro-assembly</id>
@@ -153,3 +192,4 @@
     </plugins>
   </build>
 </project>
+
